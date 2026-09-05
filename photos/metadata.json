@@ -426,8 +426,12 @@
           },
           {
             "time": "6:00 PM",
-            "title": "入住",
-            "desc": "火锅晚餐 · 休息"
+            "title": "入住Ausvilla",
+            "desc": "火锅晚餐 · 休息",
+            "maps": "Ausvilla, Kundasang",
+            "note": "",
+            "pending": "",
+            "photo": true
           }
         ]
       },
