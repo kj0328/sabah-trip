@@ -502,11 +502,13 @@
             "photo": true
           },
           {
-            "time": "3:00 PM",
+            "time": "2:00 PM",
             "title": "Polumpung Campsite",
             "desc": "小溪山景⛰️",
             "maps": "Polumpung Melangkap View Campsite",
-            "photo": true
+            "photo": true,
+            "note": "",
+            "pending": ""
           },
           {
             "time": "5:00 PM",
