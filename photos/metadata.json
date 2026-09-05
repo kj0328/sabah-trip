@@ -423,18 +423,21 @@
             "photo": true
           },
           {
+            "time": "2:00 PM",
+            "title": "观景点",
+            "maps": "Kundasang point view",
+            "photo": true,
+            "desc": "",
+            "note": "",
+            "pending": ""
+          },
+          {
             "time": "3:00 PM",
             "title": "Spring Garden Kundasang",
             "desc": "",
             "note": "",
             "maps": "Spring Garden",
             "pending": ""
-          },
-          {
-            "time": "3:00 PM",
-            "title": "观景点",
-            "maps": "Kundasang point view",
-            "photo": true
           },
           {
             "time": "6:00 PM",
