@@ -512,9 +512,12 @@
           },
           {
             "time": "5:00 PM",
-            "title": "晚餐 Dusun料理",
+            "title": "待定",
             "maps": "Restoran Selera Kebun Kundasang",
-            "photo": true
+            "photo": true,
+            "desc": "",
+            "note": "",
+            "pending": ""
           }
         ]
       },
