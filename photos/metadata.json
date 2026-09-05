@@ -484,26 +484,30 @@
             "photo": true
           },
           {
+            "time": "11:00 AM",
+            "title": "午餐 · Rusa Selera",
+            "maps": "Rusa Selera Kundasang",
+            "desc": "",
+            "note": "",
+            "pending": "",
+            "photo": true
+          },
+          {
+            "time": "11:00 AM",
+            "title": "午餐 · Rusa Selera",
+            "pending": "",
+            "desc": "",
+            "maps": "Rusa Selera Kundasang",
+            "note": "",
+            "photo": true
+          },
+          {
             "time": "2:00 PM",
             "title": "Kundasang Market",
             "pending": "",
             "desc": "逛街/市集",
             "maps": "Kundasang Market",
             "note": "",
-            "photo": true
-          },
-          {
-            "time": "6:00 PM",
-            "title": "晚餐",
-            "pending": "地点待定"
-          },
-          {
-            "time": "11:00 PM",
-            "title": "午餐 · Rusa Selera",
-            "maps": "Rusa Selera Kundasang",
-            "desc": "",
-            "note": "",
-            "pending": "",
             "photo": true
           }
         ]
