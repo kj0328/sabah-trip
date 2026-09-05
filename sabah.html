@@ -103,8 +103,7 @@ button,input,textarea{font:inherit}
 .check-card h3{font-size:.9rem;font-weight:600;margin-bottom:10px}
 .check-item{display:flex;gap:9px;align-items:center;padding:7px 0;border-bottom:1px solid #eceae3;font-size:.78rem}
 .check-item:last-child{border:0}
-.check-item input{accent-color:var(--sage);width:16px;height:16px}
-.check-item input:checked+label{text-decoration:line-through;color:#aaa}
+.check-item span::before{content:"• ";color:var(--sage)}
 .notes{padding:25px 0 65px}
 .notes-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
 .notes-card h3{font-family:Georgia,serif;font-weight:500;font-size:1.25rem}
@@ -374,8 +373,7 @@ function renderTrip(){
   d.checklist.forEach((cat,ci)=>{
     html+=`<div class="check-card"><h3>${esc(cat.title)}</h3>`;
     cat.items.forEach((item,ii)=>{
-      const ck=`sabah_c${ci}_${ii}`;const checked=localStorage.getItem(ck)==="1"?"checked":"";
-      html+=`<div class="check-item"><input type="checkbox" id="${ck}" ${checked}><label for="${ck}">${esc(item.l)}</label></div>`;
+      html+=`<div class="check-item"><span>${esc(item.l)}</span></div>`;
     });
     html+=`<div class="edit-bar" data-section="checklist">${editBtn("checklist",ci)} ${delBtn("checklist",ci,cat.title)}</div></div>`;
   });
@@ -384,8 +382,6 @@ function renderTrip(){
   html+=`</main><footer>沙巴 · KK & Kundasang · 2026年9月</footer>`;
 
   app.innerHTML=html;
-
-  document.querySelectorAll(".check-item input").forEach(cb=>{const key="sabah_"+cb.id;cb.checked=localStorage.getItem(key)==="1";cb.addEventListener("change",()=>localStorage.setItem(key,cb.checked?"1":"0"));});
 
   startCountdown();initPhotos();
 }
