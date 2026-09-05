@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabah — KK & Kundasang</title>
+<meta name="description" content="沙巴旅行计划 — KK & Kundasang">
+<style>
+:root{
+  --ink:#30322f;--muted:#74766f;--paper:#f3f1eb;--card:#fbfaf6;
+  --line:#d9d7ce;--sage:#68756b;--sage-soft:#dfe4dc;--sand:#ddd6c8;
+  --dark:#3f4942;--radius:22px;--shadow:0 12px 35px rgba(48,50,47,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:url("https://raw.githubusercontent.com/kj0328/sabah-trip/main/photos/background.jpg") center/cover no-repeat;opacity:.2}
+button,input,textarea{font:inherit}
+.hero{min-height:430px;padding:70px 24px 80px;position:relative;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;text-align:center}
+.hero-content{position:relative;z-index:1;max-width:760px}
+.eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--muted);margin-bottom:18px}
+.hero h1{font-family:Georgia,serif;font-size:clamp(3.2rem,9vw,6.5rem);font-weight:500;letter-spacing:-.05em;line-height:.9}
+.hero p{margin-top:22px;color:#62665f;font-size:1.05rem}
+.hero-meta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
+.pill{border:1px solid rgba(63,73,66,.2);padding:8px 14px;border-radius:999px;font-size:.78rem;background:rgba(255,255,255,.25)}
+.countdown{max-width:900px;margin:-45px auto 0;padding:0 20px;position:relative;z-index:5}
+.countdown-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;display:flex;align-items:center;gap:28px;justify-content:space-between}
+.countdown-copy{min-width:180px}
+.label{font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.countdown-copy h2{font-family:Georgia,serif;font-size:1.45rem;font-weight:500;margin-top:4px}
+.countdown-copy p{font-size:.82rem;color:var(--muted)}
+.countdown-grid{display:flex;gap:8px}
+.count-item{min-width:68px;text-align:center;padding:12px 8px;background:var(--sage-soft);border-radius:14px}
+.count-num{display:block;font-size:1.55rem;font-weight:600}
+.count-label{font-size:.62rem;color:var(--muted);text-transform:uppercase}
+.container{max-width:920px;margin:auto;padding:0 20px}
+.flight{margin-top:26px;background:var(--dark);color:#f8f7f2;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+.section-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;opacity:.65}
+.flight-route{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px}
+.airport{text-align:center}.airport-code{font-family:Georgia,serif;font-size:2.8rem}.airport-name{font-size:.75rem;opacity:.65}
+.flight-time{margin-top:7px;font-size:.9rem}
+.route-arrow{font-size:1.5rem;opacity:.6}
+.flight-details{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.15);margin-top:26px;border-radius:12px;overflow:hidden}
+.detail{background:rgba(255,255,255,.04);padding:12px}.detail span{display:block;font-size:.65rem;opacity:.55;text-transform:uppercase}.detail strong{font-size:.8rem;font-weight:500}
+.day-nav{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);margin-top:40px}
+.day-nav-inner{max-width:920px;margin:auto;padding:10px 20px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.day-nav-inner::-webkit-scrollbar{display:none}
+.day-nav button{border:0;background:transparent;color:var(--muted);padding:8px 15px;border-radius:999px;cursor:pointer;white-space:nowrap;font-size:.78rem}
+.day-nav button.active,.day-nav button:hover{background:var(--dark);color:#fff}
+.route-overview{padding:50px 0 30px}
+.route-overview h2,.section-heading{font-family:Georgia,serif;font-weight:500;font-size:2rem}
+.route-sub{color:var(--muted);font-size:.82rem;margin-top:5px}
+.route-strip{display:flex;align-items:center;gap:10px;margin-top:25px;overflow:auto;padding-bottom:8px}
+.route-node{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;min-width:130px}
+.route-node small{display:block;color:var(--muted);font-size:.65rem;text-transform:uppercase}
+.route-node strong{font-size:.85rem;font-weight:500}
+.route-connector{color:#a4a69f}
+.day-section{padding:45px 0;scroll-margin-top:70px}
+.day-header{display:flex;align-items:end;gap:18px;margin-bottom:28px}
+.day-number{font-family:Georgia,serif;font-size:4rem;line-height:.8;color:var(--sage)}
+.day-title h2{font-family:Georgia,serif;font-weight:500;font-size:1.7rem}
+.day-title p{font-size:.78rem;color:var(--muted)}
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:"";position:absolute;left:5px;top:10px;bottom:10px;width:1px;background:var(--line)}
+.item{position:relative;margin-bottom:18px}
+.item::before{content:"";position:absolute;left:-29px;top:26px;width:9px;height:9px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 5px var(--paper)}
+.activity{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;grid-template-columns:90px 1fr;gap:20px;transition:.25s ease;box-shadow:0 4px 16px rgba(48,50,47,.035)}
+.activity:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.time{font-family:Georgia,serif;font-size:1.05rem;color:var(--sage)}
+.activity h3{font-size:1rem;font-weight:600}
+.activity p{font-size:.8rem;color:var(--muted);margin-top:4px}
+.activity-note{margin-top:10px;padding:8px 10px;background:#eceae3;border-radius:9px;font-size:.73rem;color:#686b64}
+.maps{display:inline-block;margin-top:11px;color:var(--dark);font-size:.72rem;text-decoration:none;border-bottom:1px solid #aaa;padding-bottom:2px}
+.pending{display:inline-block;margin-top:9px;padding:4px 9px;border-radius:999px;background:#ebe8df;color:#77786f;font-size:.65rem}
+.food{background:var(--sage-soft);border-radius:18px;padding:18px 20px;margin:4px 0 18px}
+.food-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#657064}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{background:rgba(255,255,255,.55);padding:6px 11px;border-radius:999px;font-size:.72rem}
+.itinerary-photo{grid-column:1/-1;position:relative;min-height:170px;border:1px dashed #c9c7bd;border-radius:14px;overflow:hidden;background:#f0eee7}
+.itinerary-photo.has-photos{border-style:solid;border-color:var(--line);background:#e8e5dc}
+.itinerary-photo img{display:block;width:100%;height:220px;object-fit:cover}
+.photo-empty{min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--muted);cursor:pointer}
+.photo-empty:hover{background:rgba(0,0,0,.02)}
+.photo-empty .photo-icon{font-size:1.7rem;margin-bottom:7px;opacity:.75}
+.photo-empty strong{font-size:.78rem;font-weight:600;color:var(--ink)}
+.photo-empty span{font-size:.68rem;margin-top:3px}
+.photo-actions{position:absolute;right:10px;bottom:10px;display:flex;gap:7px;z-index:2}
+.photo-btn{border:1px solid rgba(48,50,47,.14);background:rgba(251,250,246,.94);color:var(--dark);padding:7px 11px;border-radius:999px;font-size:.68rem;cursor:pointer;box-shadow:0 5px 14px rgba(48,50,47,.08);backdrop-filter:blur(8px)}
+.photo-btn:hover{background:#fff}
+.photo-input{display:none}
+.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(251,250,246,.92);border:1px solid rgba(48,50,47,.1);width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--dark);box-shadow:0 3px 10px rgba(48,50,47,.1);backdrop-filter:blur(6px);z-index:3}
+.photo-nav:hover{background:#fff}
+.photo-nav.prev{left:10px}
+.photo-nav.next{right:10px}
+.photo-counter{position:absolute;bottom:10px;left:10px;z-index:2;background:rgba(48,50,47,.65);color:#fff;padding:4px 10px;border-radius:999px;font-size:.65rem;backdrop-filter:blur(6px)}
+.photo-remove-current{position:absolute;top:10px;right:10px;z-index:3;background:rgba(48,50,47,.55);color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center}
+.photo-remove-current:hover{background:rgba(48,50,47,.8)}
+.photo-upload-status{position:absolute;top:10px;left:10px;z-index:3;background:rgba(48,50,47,.75);color:#fff;padding:5px 12px;border-radius:999px;font-size:.65rem;backdrop-filter:blur(6px)}
+.checklist{padding:55px 0}
+.checklist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:25px}
+.check-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.check-card h3{font-size:.9rem;font-weight:600;margin-bottom:10px}
+.check-item{display:flex;gap:9px;align-items:center;padding:7px 0;border-bottom:1px solid #eceae3;font-size:.78rem}
+.check-item:last-child{border:0}
+.check-item input{accent-color:var(--sage);width:16px;height:16px}
+.check-item input:checked+label{text-decoration:line-through;color:#aaa}
+.notes{padding:25px 0 65px}
+.notes-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.notes-card h3{font-family:Georgia,serif;font-weight:500;font-size:1.25rem}
+textarea{width:100%;min-height:120px;margin-top:14px;border:1px solid var(--line);background:#f5f3ed;border-radius:12px;padding:12px;resize:vertical;outline:0;color:var(--ink)}
+textarea:focus{border-color:var(--sage)}
+footer{text-align:center;padding:35px 20px;border-top:1px solid var(--line);color:var(--muted);font-size:.72rem}
+@media(max-width:650px){
+  .hero{min-height:390px}.countdown-card{display:block}.countdown-grid{margin-top:18px;justify-content:space-between}.count-item{min-width:0;flex:1}
+  .flight{padding:22px}.flight-route{gap:8px}.airport-code{font-size:2.2rem}
+  .activity{grid-template-columns:1fr;gap:6px}.time{font-size:.9rem}
+  .checklist-grid{grid-template-columns:1fr}.day-number{font-size:3.2rem}
+  .itinerary-photo img{height:190px}.photo-empty{min-height:145px}
+}
+
+.edit-fab{position:fixed;bottom:24px;right:24px;z-index:100;background:var(--dark);color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:1.3rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:.2s}
+.edit-fab:hover{transform:scale(1.08)}
+body.editing .edit-fab{background:#c0392b}
+body.editing .activity, body.editing .day-section, body.editing .flight, body.editing .check-card, body.editing .hero, body.editing .route-overview, body.editing .notes-card {position:relative}
+body.editing .activity:hover, body.editing .day-section:hover, body.editing .flight:hover, body.editing .check-card:hover {outline:2px dashed var(--sage);outline-offset:4px}
+.edit-bar{display:none;gap:6px;margin-top:10px}
+body.editing .edit-bar{display:flex;flex-wrap:wrap}
+.edit-bar button{border:1px solid var(--line);background:var(--card);color:var(--dark);padding:5px 10px;border-radius:8px;font-size:.68rem;cursor:pointer}
+.edit-bar button:hover{background:var(--sage-soft)}
+.edit-bar .del{color:#c0392b;border-color:#e8c4c0}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border-radius:20px;padding:28px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal h3{font-family:Georgia,serif;font-weight:500;font-size:1.2rem;margin-bottom:18px}
+.modal label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:12px}
+.modal input,.modal textarea,.modal select{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#f5f3ed;font-size:.85rem;outline:0;margin-top:4px}
+.modal input:focus,.modal textarea:focus{border-color:var(--sage)}
+.modal textarea{min-height:60px;resize:vertical}
+.modal-actions{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+.modal-actions button{padding:8px 18px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:.82rem;cursor:pointer}
+.modal-actions .save{background:var(--dark);color:#fff;border-color:var(--dark)}
+.add-day-btn{display:block;width:100%;padding:18px;border:2px dashed var(--line);border-radius:18px;background:transparent;color:var(--muted);font-size:.85rem;cursor:pointer;margin:20px 0}
+.add-day-btn:hover{border-color:var(--sage);color:var(--dark)}
+body.readonly .edit-bar,body.readonly .add-day-btn{display:none!important}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+<button class="edit-fab" id="editFab" title="编辑模式">✏️</button>
+
+<script>
+const DEFAULT_TRIP = {
+  hero:{eyebrow:"沙巴旅行计划",title:"Sabah",subtitle:"Kota Kinabalu · Kundasang",pills:["9月16日 — 9月20日","5天4夜"]},
+  departure:"2026-09-16T15:10:00",
+  flight:{label:"去程航班",date:"9月16日",from:{code:"JHB",name:"Senai Airport",time:"3:10 PM"},to:{code:"BKI",name:"KK International Airport",time:"5:30 PM"},details:[{label:"航空公司",value:"待填写"},{label:"航班号",value:"待填写"},{label:"预订编号",value:"待填写"}]},
+  route:{title:"从海岸到高原",subtitle:"Senai → Kota Kinabalu → Tamparuli → Kundasang → KK Airport",nodes:[{label:"出发",name:"Senai"},{label:"城市",name:"Kota Kinabalu"},{label:"途经",name:"Tamparuli"},{label:"高原",name:"Kundasang"}]},
+  days:[
+    {id:"day1",number:"01",title:"抵达KK",subtitle:"9月16日 · Kota Kinabalu",items:[
+      {time:"3:10 PM",title:"出发 · Senai Airport",desc:"Senai Airport, Johor Bahru",maps:"Senai Airport"},
+      {time:"5:30 PM",title:"抵达 Kota Kinabalu",desc:"KK International Airport · Terminal 1",maps:"Kota Kinabalu International Airport Terminal 1"},
+      {time:"6:00 PM",title:"晚餐",desc:"煮炒 / 海鲜",pending:"地点待定"},
+      {time:"7:30 PM",title:"Homestay 入住",desc:"休息，安顿下来"}
+    ]},
+    {id:"day2",number:"02",title:"Kota Kinabalu 城市游",subtitle:"城市漫步 · 美食 · 日落",items:[
+      {time:"9:00 AM",title:"早餐 · 生肉面",desc:"Sinsuran",maps:"Sinsuran Kota Kinabalu"},
+      {time:"10:30 AM",title:"KK 城市漫步",desc:"粉色清真寺 → 水上清真寺 → Gaya Street"},
+      {time:"12:00 PM",title:"午餐 · Yee Fung Laksa",desc:"Laksa · 牛杂",maps:"Yee Fung Laksa Kota Kinabalu"},
+      {time:"2:00 PM",title:"Gaya Street",desc:"拍照 · 逛街 · 小吃",maps:"Gaya Street Kota Kinabalu"},
+      {time:"3:00 PM",title:"下午茶",desc:"Mizumizu / Woo! Cafe"},
+      {time:"6:00 PM",title:"日落 · Tanjung Aru",desc:"黄金时刻 · 第2天重点活动",maps:"Tanjung Aru Beach Sabah"},
+      {time:"7:00 PM",title:"晚餐 · 大茄来",desc:"海鲜"},
+      {time:"8:30 PM",title:"逛街 / 買火锅食材",pending:"Imago Shopping Mall"}
+    ]},
+    {id:"day3",number:"03",title:"前往高原",subtitle:"KK → Tamparuli → Kundasang",items:[
+      {time:"10:00 AM",title:"早餐 / 早午餐 · Fatt Kee",desc:"鱼肉粉",maps:"Fatt Kee Kota Kinabalu"},
+      {time:"11:30 AM",title:"公路旅行",desc:"Kota Kinabalu → Tamparuli → Kundasang"},
+      {type:"food",title:"沿途美食候选",chips:["椰子布丁","Tamparuli Mee","烤山猪肉 + 木薯糕"]},
+      {time:"3:00 PM",title:"Desa Dairy Farm / Spring Garden",desc:"根据时间选择其中一个。",note:"温馨提醒：下午不一定能看到神山，视天气及能见度而定。"},
+      {time:"6:00 PM",title:"入住",desc:"火锅晚餐 · 休息"}
+    ]},
+    {id:"day4",number:"04",title:"Kundasang 日出",subtitle:"早起出发 · 乡村风光 · 悠闲午后",items:[
+      {time:"5:30 AM",title:"起床出发",desc:"清晨驾车"},
+      {time:"6:00 AM",title:"日出 · Sosodikon Hill",desc:"第4天重点活动",maps:"Sosodikon Hill Kundasang"},
+      {time:"8:00 AM",title:"早餐 · Anooh Coffee",maps:"Anooh Coffee Kundasang"},
+      {time:"10:00 AM",title:"Desa Dairy Farm / Spring Garden",desc:"风景 · 拍照 · 乡村风光"},
+      {time:"12:00 PM",title:"午餐 · Rusa Selera",maps:"Rusa Selera Kundasang"},
+      {time:"2:00 PM",title:"下午 · 自由活动",pending:"活动待定"},
+      {time:"6:00 PM",title:"晚餐",pending:"地点待定"}
+    ]},
+    {id:"day5",number:"05",title:"返回KK",subtitle:"Kundasang → Kota Kinabalu Airport",items:[
+      {time:"6:00 AM",title:"Homestay 日出 + 早餐",desc:"退房前的悠闲早晨"},
+      {time:"10:00 AM",title:"退房"},
+      {time:"12:30 PM",title:"午餐",pending:"地点待定"},
+      {time:"2:00 PM",title:"下午 · 自由活动",pending:"活动待定"},
+      {time:"3:00 PM",title:"前往 KK Airport",desc:"Kundasang / Kota Kinabalu → KK International Airport",maps:"Kota Kinabalu International Airport"}
+    ]}
+  ],
+  checklist:[
+    {title:"重要物品",items:[{l:"手机"},{l:"手机充电器"},{l:"Power Bank"},{l:"充电线"},{l:"耳机"},{l:"身份证 / Passport"},{l:"航班资料"},{l:"Homestay 资料"},{l:"钱包 / 银行卡 / 现金"}]},
+    {title:"衣物",items:[{l:"T恤"},{l:"长裤"},{l:"短裤"},{l:"内衣裤"},{l:"睡衣"},{l:"外套"},{l:"薄长袖"},{l:"袜子"},{l:"舒适的鞋子"},{l:"拖鞋"}]},
+    {title:"Kundasang 专用",items:[{l:"保暖外套"},{l:"长裤"},{l:"保暖衣物"},{l:"舒适的鞋子"},{l:"备用袜子"}]},
+    {title:"天气用品",items:[{l:"雨伞"},{l:"雨衣"},{l:"防水袋"},{l:"塑料袋"}]},
+    {title:"个人护理",items:[{l:"牙刷和牙膏"},{l:"洗面奶"},{l:"洗发水 / 沐浴露"},{l:"防晒霜"},{l:"润唇膏"},{l:"纸巾 / 湿纸巾"}]},
+    {title:"旅行用品",items:[{l:"相机"},{l:"相机电池"},{l:"存储卡"},{l:"三脚架"},{l:"太阳镜"},{l:"帽子"},{l:"环保水壶"}]}
+  ]
+};
+
+let tripData = null;
+let editMode = false;
+let metaSha = null;
+
+const GITHUB_OWNER="kj0328",GITHUB_REPO="sabah-trip",GITHUB_BRANCH="main";
+const WORKER_URL="https://sabah-trip-upload.jing2003038.workers.dev";
+const PHOTO_DIR="photos";
+const RAW_BASE=`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${PHOTO_DIR}`;
+
+async function workerRequest(action,payload){
+  const r=await fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action,...payload})});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||e.error||`Worker error ${r.status}`);}
+  return await r.json();
+}
+async function getMetadata(){try{const r=await workerRequest("read",{path:`${PHOTO_DIR}/metadata.json`});return r.content||{};}catch{return {};}}
+async function saveMetadata(meta){
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(meta,null,2))));
+  let sha=null;try{const r=await workerRequest("read",{path:`${PHOTO_DIR}/metadata.json`});sha=r.sha;}catch{}
+  for(let i=0;i<3;i++){try{await workerRequest("upload",{path:`${PHOTO_DIR}/metadata.json`,content,message:"Update trip data",sha});return;}catch(e){if(i<2){try{const f=await workerRequest("read",{path:`${PHOTO_DIR}/metadata.json`});sha=f.sha;}catch{}await new Promise(r=>setTimeout(r,500));}else throw e;}}
+}
+
+async function loadTrip(){
+  try{
+    const meta=await getMetadata();
+    if(meta.trip){tripData=JSON.parse(JSON.stringify(meta.trip));return true;}
+  }catch{}
+  return false;
+}
+async function saveTrip(){
+  const meta=await getMetadata();
+  meta.trip=tripData;
+  await saveMetadata(meta);
+}
+
+function fileToBase64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(",")[1]);r.onerror=rej;r.readAsDataURL(f);});}
+function compressImage(file,maxW,qual){return new Promise(resolve=>{if(file.size<400*1024){resolve(file);return;}const img=new Image();const u=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(u);let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);c.toBlob(b=>resolve(new File([b],file.name.replace(/\.[^.]+$/,".jpg"),{type:"image/jpeg"})),"image/jpeg",qual);};img.src=u;});}
+async function uploadToGitHub(key,file){
+  const compressed=await compressImage(file,1920,0.8);const base64=await fileToBase64(compressed);const ts=Date.now();const ext=compressed.name.split(".").pop()||"jpg";const fileName=`${key}_${ts}.${ext}`;
+  const result=await workerRequest("upload",{path:`${PHOTO_DIR}/${fileName}`,content:base64,message:`Upload: ${file.name}`});
+  return{url:`${RAW_BASE}/${fileName}`,path:`${PHOTO_DIR}/${fileName}`,name:file.name,sha:result.sha};
+}
+async function deleteFromGitHub(path,sha){try{return await workerRequest("delete",{path,sha,message:`Delete: ${path}`});}catch(e){const f=await workerRequest("read",{path}).catch(()=>null);if(f&&f.sha)return await workerRequest("delete",{path,sha:f.sha,message:`Delete: ${path}`});throw e;}}
+async function getPhotos(key){const meta=await getMetadata();return meta[key]||[];}
+async function savePhotos(key,arr){const meta=await getMetadata();meta[key]=arr.filter(p=>p.url).map(p=>({url:p.url,path:p.path,name:p.name,sha:p.sha}));await saveMetadata(meta);}
+async function deleteAllPhotos(key,skip){const meta=await getMetadata();const photos=meta[key]||[];if(!skip){for(const p of photos){if(p.path&&p.sha){try{await deleteFromGitHub(p.path,p.sha);}catch{}}}}delete meta[key];await saveMetadata(meta);}
+
+function makePhotoKey(item,index){const day=item.closest(".day-section")?.id||"trip";const title=item.querySelector("h3")?.textContent.trim()||"activity";const time=item.querySelector(".time")?.textContent.trim()||index;return`${day}_${time}_${title}`.replace(/\s+/g,"_").replace(/[^\w-]/g,"").toLowerCase();}
+
+function createPhotoUI(item,index){
+  if(item.querySelector(".itinerary-photo"))return;const activity=item.querySelector(".activity");if(!activity)return;
+  const key=makePhotoKey(item,index);const wrapper=document.createElement("div");wrapper.className="itinerary-photo";wrapper.dataset.photoKey=key;wrapper.dataset.currentIndex="0";
+  const input=document.createElement("input");input.className="photo-input";input.type="file";input.accept="image/*";input.multiple=true;input.id=`photo-${index}`;
+  const label=document.createElement("div");label.className="photo-empty";label.innerHTML=`<div class="photo-icon">＋</div><strong>添加照片</strong><span>JPG, PNG, WEBP · 支持多张照片</span>`;
+  label.addEventListener("click",()=>input.click());
+  const actions=document.createElement("div");actions.className="photo-actions";
+  const addMoreBtn=document.createElement("button");addMoreBtn.type="button";addMoreBtn.className="photo-btn";addMoreBtn.textContent="＋ 添加";addMoreBtn.style.display="none";
+  addMoreBtn.addEventListener("click",e=>{e.stopPropagation();input.click();});
+  actions.appendChild(addMoreBtn);wrapper.append(label,actions,input);
+  input.addEventListener("change",async()=>{
+    const files=Array.from(input.files||[]);if(!files.length)return;
+    const validFiles=files.filter(f=>f.type.startsWith("image/")&&f.size<=10*1024*1024);
+    if(!validFiles.length){alert("请选择 10MB 以下的图片文件。");input.value="";return;}
+    const status=document.createElement("div");status.className="photo-upload-status";status.textContent="上传中...";wrapper.appendChild(status);
+    try{let existing=await getPhotos(key);for(const file of validFiles){status.textContent=`上传中 (${existing.length+1}/${validFiles.length+existing.length})...`;const uploaded=await uploadToGitHub(key,file);existing.push(uploaded);}await savePhotos(key,existing);renderPhotos(wrapper,existing);}
+    catch(error){console.error(error);alert("照片上传失败，请重试。");status.remove();}
+    input.value="";
+  });
+  activity.prepend(wrapper);
+  getPhotos(key).then(photos=>renderPhotos(wrapper,photos)).catch(console.error);
+}
+
+function renderPhotos(wrapper,photos){
+  const empty=wrapper.querySelector(".photo-empty");const addMoreBtn=wrapper.querySelector(".photo-btn");
+  wrapper.querySelectorAll("img,.photo-nav,.photo-counter,.photo-remove-current,.photo-upload-status").forEach(el=>el.remove());
+  if(!photos||!photos.length){wrapper.classList.remove("has-photos");if(empty){empty.style.display="flex";empty.innerHTML=`<div class="photo-icon">＋</div><strong>添加照片</strong><span>JPG, PNG, WEBP · 支持多张照片</span>`;}if(addMoreBtn)addMoreBtn.style.display="none";wrapper.dataset.currentIndex="0";return;}
+  wrapper.classList.add("has-photos");if(empty)empty.style.display="none";if(addMoreBtn)addMoreBtn.style.display="";
+  let ci=parseInt(wrapper.dataset.currentIndex||"0",10);if(ci>=photos.length)ci=0;wrapper.dataset.currentIndex=String(ci);
+  const img=document.createElement("img");img.alt="行程照片";img.src=photos[ci].url;wrapper.prepend(img);
+  if(photos.length>1){
+    const counter=document.createElement("div");counter.className="photo-counter";counter.textContent=`${ci+1} / ${photos.length}`;wrapper.appendChild(counter);
+    const mkNav=(dir,fn)=>{const b=document.createElement("button");b.type="button";b.className=`photo-nav ${dir}`;b.textContent=dir==="prev"?"‹":"›";b.addEventListener("click",e=>{e.stopPropagation();ci=fn(ci);wrapper.dataset.currentIndex=String(ci);img.src=photos[ci].url;counter.textContent=`${ci+1} / ${photos.length}`;});wrapper.appendChild(b);};
+    mkNav("prev",i=>(i-1+photos.length)%photos.length);mkNav("next",i=>(i+1)%photos.length);
+  }
+  const removeBtn=document.createElement("button");removeBtn.type="button";removeBtn.className="photo-remove-current";removeBtn.textContent="✕";removeBtn.title="删除这张照片";
+  removeBtn.addEventListener("click",async e=>{e.stopPropagation();if(!confirm("确定删除这张照片？"))return;try{const photo=photos[ci];if(photo.path&&photo.sha)await deleteFromGitHub(photo.path,photo.sha);photos.splice(ci,1);if(!photos.length)await deleteAllPhotos(wrapper.dataset.photoKey,true);else await savePhotos(wrapper.dataset.photoKey,photos);renderPhotos(wrapper,photos);}catch(err){console.error(err);alert("删除失败，请重试。");}});
+  wrapper.appendChild(removeBtn);
+}
+
+function initPhotos(){
+  document.querySelectorAll(".day-section .item[data-photo='true']").forEach((item,index)=>{
+    createPhotoUI(item,index);
+  });
+}
+
+/* ---- RENDER ---- */
+function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+
+function renderTrip(){
+  const d=tripData;const app=document.getElementById("app");app.innerHTML="";
+  const readonly=new URLSearchParams(window.location.search).get("readonly")==="true";
+  const eb=cls=>{const b=document.createElement("div");b.className="edit-bar";b.dataset.section=cls;return b;};
+  const editBtn=(section,key)=>readonly?"":`<button onclick="openEdit('${section}','${key}')">✏️ 编辑</button>`;
+  const delBtn=(section,key,label)=>readonly?"":`<button class="del" onclick="confirmDelete('${section}','${key}','${label}')">🗑️ 删除</button>`;
+  const addBtn=(section,key)=>readonly?"":`<button onclick="openAdd('${section}','${key}')">＋ 添加</button>`;
+
+  let html="";
+  html+=`<header class="hero"><div class="hero-content">
+    <div class="eyebrow">${esc(d.hero.eyebrow)}</div><h1>${esc(d.hero.title)}</h1><p>${esc(d.hero.subtitle)}</p>
+    <div class="hero-meta">${d.hero.pills.map(p=>`<span class="pill">${esc(p)}</span>`).join("")}</div>
+    <div class="edit-bar" data-section="hero">${editBtn("hero","main")}</div>
+  </div></header>`;
+
+  html+=`<section class="countdown"><div class="countdown-card"><div class="countdown-copy">
+    <div class="label">出发日期</div><h2>${esc(d.flight.date)} · ${esc(d.flight.from.time)}</h2><p>${esc(d.flight.from.name)} → ${esc(d.flight.to.name)}</p>
+  </div><div class="countdown-grid">
+    <div class="count-item"><span class="count-num" id="days">00</span><span class="count-label">天</span></div>
+    <div class="count-item"><span class="count-num" id="hours">00</span><span class="count-label">时</span></div>
+    <div class="count-item"><span class="count-num" id="mins">00</span><span class="count-label">分</span></div>
+    <div class="count-item"><span class="count-num" id="secs">00</span><span class="count-label">秒</span></div>
+  </div></div></section>`;
+
+  html+=`<main class="container"><section class="flight">
+    <div class="section-top"><span class="section-label">${esc(d.flight.label)}</span><span class="section-label">${esc(d.flight.date)}</span></div>
+    <div class="flight-route">
+      <div class="airport"><div class="airport-code">${esc(d.flight.from.code)}</div><div class="airport-name">${esc(d.flight.from.name)}</div><div class="flight-time">${esc(d.flight.from.time)}</div></div>
+      <div class="route-arrow">→</div>
+      <div class="airport"><div class="airport-code">${esc(d.flight.to.code)}</div><div class="airport-name">${esc(d.flight.to.name)}</div><div class="flight-time">${esc(d.flight.to.time)}</div></div>
+    </div>
+    <div class="flight-details">${d.flight.details.map(dt=>`<div class="detail"><span>${esc(dt.label)}</span><strong>${esc(dt.value)}</strong></div>`).join("")}</div>
+    <div class="edit-bar" data-section="flight">${editBtn("flight","main")}</div>
+  </section></main>`;
+
+  html+=`<nav class="day-nav"><div class="day-nav-inner">`;
+  d.days.forEach((day,i)=>{html+=`<button onclick="scrollToDay(${i+1})" ${i===0?'class="active"':''}>第${i+1}天</button>`;});
+  html+=`<button onclick="document.getElementById('checklist').scrollIntoView({behavior:'smooth'})">行李清单</button>`;
+  html+=`</div></nav>`;
+
+  html+=`<main class="container">`;
+
+  d.days.forEach((day,di)=>{
+    html+=`<section class="day-section" id="${day.id}">
+    <div class="day-header"><div class="day-number">${esc(day.number)}</div><div class="day-title"><h2>${esc(day.title)}</h2><p>${esc(day.subtitle)}</p></div></div>
+    <div class="timeline">${day.items.map((item,ii)=>{
+      const photoEnabled=item.photo!==false;
+      let inner=`<div class="time">${esc(item.time||"")}</div><div><h3>${esc(item.title)}</h3>`;
+      if(item.desc)inner+=`<p>${esc(item.desc)}</p>`;
+      if(item.maps)inner+=`<a class="maps" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.maps)}" target="_blank">打开 Google Maps ↗</a>`;
+      if(item.note)inner+=`<div class="activity-note">${esc(item.note)}</div>`;
+      if(item.pending)inner+=`<span class="pending">${esc(item.pending)}</span>`;
+      inner+=`</div>`;
+      return`<div class="item" data-photo="${photoEnabled}"><div class="activity">${inner}</div>
+      <div class="edit-bar"><button onclick="openEditItem(${di},${ii})">✏️ 编辑</button><button class="del" onclick="deleteItem(${di},${ii})">🗑️ 删除</button></div></div>`;
+    }).join("")}</div>
+    <div class="edit-bar" data-section="day" data-dayindex="${di}">
+      ${addBtn("item",di)} ${editBtn("day",di)} ${delBtn("day",di,day.title)}
+    </div>
+    </section>`;
+  });
+
+  html+=`<button class="add-day-btn" onclick="openAddDay()">＋ 添加新一天</button>`;
+
+  html+=`<section class="checklist" id="checklist"><div class="label">出发前准备</div><h2 class="section-heading">行李清单</h2><div class="checklist-grid">`;
+  d.checklist.forEach((cat,ci)=>{
+    html+=`<div class="check-card"><h3>${esc(cat.title)}</h3>`;
+    cat.items.forEach((item,ii)=>{
+      const ck=`sabah_c${ci}_${ii}`;const checked=localStorage.getItem(ck)==="1"?"checked":"";
+      html+=`<div class="check-item"><input type="checkbox" id="${ck}" ${checked}><label for="${ck}">${esc(item.l)}</label></div>`;
+    });
+    html+=`<div class="edit-bar" data-section="checklist">${editBtn("checklist",ci)} ${delBtn("checklist",ci,cat.title)}</div></div>`;
+  });
+  html+=`</div><div class="edit-bar" data-section="checklist_add">${addBtn("checklist","new")}</div></section>`;
+
+  html+=`</main><footer>沙巴 · KK & Kundasang · 2026年9月</footer>`;
+
+  app.innerHTML=html;
+
+  document.querySelectorAll(".check-item input").forEach(cb=>{const key="sabah_"+cb.id;cb.checked=localStorage.getItem(key)==="1";cb.addEventListener("change",()=>localStorage.setItem(key,cb.checked?"1":"0"));});
+
+  startCountdown();initPhotos();
+}
+
+function startCountdown(){
+  function tick(){
+    const diff=new Date(tripData.departure)-new Date();
+    if(diff<=0){["days","hours","mins","secs"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent="00";});return;}
+    document.getElementById("days").textContent=String(Math.floor(diff/86400000)).padStart(2,"0");
+    document.getElementById("hours").textContent=String(Math.floor(diff%86400000/3600000)).padStart(2,"0");
+    document.getElementById("mins").textContent=String(Math.floor(diff%3600000/60000)).padStart(2,"0");
+    document.getElementById("secs").textContent=String(Math.floor(diff%60000/1000)).padStart(2,"0");
+  }
+  tick();setInterval(tick,1000);
+}
+
+function scrollToDay(day){
+  const d=tripData.days[day-1];if(!d)return;
+  document.getElementById(d.id)?.scrollIntoView({behavior:"smooth"});
+  document.querySelectorAll(".day-nav button").forEach((b,i)=>b.classList.toggle("active",i===day-1));
+}
+
+function parseTime(t){
+  if(!t)return 9999;
+  const m=t.trim().match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+  if(!m)return 9999;
+  let h=parseInt(m[1]),mi=parseInt(m[2]);
+  const ap=m[3]?.toUpperCase();
+  if(ap==="PM"&&h!==12)h+=12;
+  if(ap==="AM"&&h===12)h=0;
+  if(!ap&&h<6)h+=12;
+  return h*60+mi;
+}
+function sortDayItems(day){
+  const foods=day.items.filter(i=>i.type==="food");
+  const acts=day.items.filter(i=>i.type!=="food");
+  acts.sort((a,b)=>parseTime(a.time)-parseTime(b.time));
+  day.items=[...acts,...foods];
+}
+
+/* ---- MODAL ---- */
+function openModal(html){document.getElementById("modalContent").innerHTML=html;document.getElementById("modalOverlay").classList.add("open");}
+function closeModal(){document.getElementById("modalOverlay").classList.remove("open");}
+document.getElementById("modalOverlay").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal();});
+
+function field(label,name,value,type="text",extra=""){
+  return`<label>${label}</label><input type="${type}" name="${name}" value="${esc(value||"")}" ${extra}>`;
+}
+function textarea(label,name,value){
+  return`<label>${label}</label><textarea name="${name}">${esc(value||"")}</textarea>`;
+}
+
+/* ---- EDIT HANDLERS ---- */
+function openEdit(section,key){
+  const d=tripData;
+  if(section==="hero"){
+    openModal(`<h3>编辑标题</h3>
+      ${field("副标题","eyebrow",d.hero.eyebrow)}
+      ${field("主标题","title",d.hero.title)}
+      ${field("描述","subtitle",d.hero.subtitle)}
+      ${field("标签 (逗号分隔)","pills",d.hero.pills.join(","))}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveHero()">保存</button></div>`);
+  } else if(section==="flight"){
+    const f=d.flight;
+    openModal(`<h3>编辑航班</h3>
+      ${field("标签","label",f.label)} ${field("日期","date",f.date)}
+      ${field("出发代码","fcode",f.from.code)} ${field("出发名称","fname",f.from.name)} ${field("出发时间","ftime",f.from.time)}
+      ${field("到达代码","tcode",f.to.code)} ${field("到达名称","tname",f.to.name)} ${field("到达时间","ttime",f.to.time)}
+      ${textarea("详情 (每行 标签:值)","details",f.details.map(d=>d.label+": "+d.value).join("\n"))}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveFlight()">保存</button></div>`);
+  } else if(section==="route"){
+    openModal(`<h3>编辑路线</h3>
+      ${field("标题","title",d.route.title)} ${field("描述","subtitle",d.route.subtitle)}
+      ${textarea("节点 (每行 标签,名称)", "nodes", d.route.nodes.map(n=>n.label+","+n.name).join("\n"))}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveRoute()">保存</button></div>`);
+  } else if(section==="day"){
+    const day=d.days[key];
+    openModal(`<h3>编辑第${parseInt(key)+1}天</h3>
+      ${field("编号","number",day.number)} ${field("标题","title",day.title)} ${field("副标题","subtitle",day.subtitle)}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveDay(${key})">保存</button></div>`);
+  } else if(section==="item"){
+    openModal(`<h3>添加活动 · 第${parseInt(key)+1}天</h3>
+      ${field("时间","time","","text",'placeholder="如 9:00 AM"')} ${field("标题","title")} ${field("描述","desc")}
+      ${field("Google Maps 地点","maps")} ${field("备注","note")} ${field("待定文字","pending")}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveNewItem(${key})">添加</button></div>`);
+  } else if(section==="checklist"){
+    const cat=d.checklist[key];
+    openModal(`<h3>编辑清单 · ${esc(cat.title)}</h3>
+      ${field("分类名称","title",cat.title)}
+      ${textarea("项目 (每行一个)","items",cat.items.map(i=>i.l).join("\n"))}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveChecklist(${key})">保存</button></div>`);
+  }
+}
+
+function openAdd(section,key){
+  if(section==="item"){
+    openModal(`<h3>添加新活动 · 第${parseInt(key)+1}天</h3>
+      <div style="margin-bottom:16px;padding:12px;background:var(--sage-soft);border-radius:10px;font-size:.75rem;color:var(--muted)">填写时间后保存，活动会自动按时间排序。</div>
+      ${field("时间","time","","text",'placeholder="如 9:00 AM"')}
+      ${field("标题","title")}
+      ${field("描述 (可选)","desc")}
+      ${field("Google Maps 地点 (可选)","maps")}
+      ${field("备注 (可选)","note")}
+      ${field("状态文字 (可选 · 如「地点待定」)","pending")}
+      <div style="margin-top:14px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.82rem"><input type="checkbox" name="photo" checked style="accent-color:var(--sage);width:16px;height:16px"> 启用照片上传</label></div>
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveNewItem(${key})">添加</button></div>`);
+  } else if(section==="checklist"){
+    openModal(`<h3>添加清单分类</h3>
+      ${field("分类名称","title")}
+      ${textarea("项目 (每行一个)","items","")}
+      <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveNewChecklist()">添加</button></div>`);
+  }
+}
+
+function openEditItem(di,ii){
+  const item=tripData.days[di].items[ii];
+  const photoChecked=item.photo!==false?"checked":"";
+  openModal(`<h3>编辑活动</h3>
+    ${field("时间","time",item.time)} ${field("标题","title",item.title)} ${field("描述","desc",item.desc)}
+    ${field("Google Maps 地点","maps",item.maps)} ${field("备注","note",item.note)} ${field("待定文字","pending",item.pending)}
+    <div style="margin-top:14px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.82rem"><input type="checkbox" name="photo" ${photoChecked} style="accent-color:var(--sage);width:16px;height:16px"> 启用照片上传</label></div>
+    <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveEditItem(${di},${ii})">保存</button></div>`);
+}
+function saveEditItem(di,ii){
+  const f=getFormFields();const item=tripData.days[di].items[ii];
+  item.time=f.time;item.title=f.title;item.desc=f.desc;item.maps=f.maps;item.note=f.note;item.pending=f.pending;
+  item.photo=f.photo===true;
+  sortDayItems(tripData.days[di]);
+  saveTrip().then(()=>{renderTrip();closeModal();});
+}
+function deleteItem(di,ii){
+  if(!confirm("确定删除此活动？"))return;
+  tripData.days[di].items.splice(ii,1);
+  saveTrip().then(()=>renderTrip());
+}
+
+function openAddDay(){
+  const n=tripData.days.length+1;
+  openModal(`<h3>添加第${n}天</h3>
+    ${field("编号","number",String(n).padStart(2,"0"))} ${field("标题","title")} ${field("副标题","subtitle")}
+    <div class="modal-actions"><button onclick="closeModal()">取消</button><button class="save" onclick="saveNewDay()">添加</button></div>`);
+}
+
+function getForm(){const fd=new FormData(document.getElementById("modalContent").querySelectorAll("input,textarea")[0]?.form||document.getElementById("modalContent"));const o={};fd.forEach((v,k)=>o[k]=v);return o;}
+
+function getFormFields(){
+  const modal=document.getElementById("modalContent");
+  const o={};modal.querySelectorAll("input[name],textarea[name]").forEach(el=>{
+    if(el.type==="checkbox")o[el.name]=el.checked;
+    else o[el.name]=el.value;
+  });
+  return o;
+}
+
+async function saveHero(){
+  const f=getFormFields();tripData.hero.eyebrow=f.eyebrow;tripData.hero.title=f.title;tripData.hero.subtitle=f.subtitle;tripData.hero.pills=f.pills.split(",").map(s=>s.trim()).filter(Boolean);
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveFlight(){
+  const f=getFormFields();const d=tripData.flight;d.label=f.label;d.date=f.date;d.from={code:f.fcode,name:f.fname,time:f.ftime};d.to={code:f.tcode,name:f.tname,time:f.ttime};
+  d.details=f.details.split("\n").filter(Boolean).map(l=>{const[i,v]=l.split(":");return{label:(i||"").trim(),value:(v||l).trim()};});
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveRoute(){
+  const f=getFormFields();tripData.route.title=f.title;tripData.route.subtitle=f.subtitle;
+  tripData.route.nodes=f.nodes.split("\n").filter(Boolean).map(l=>{const[a,b]=l.split(",");return{label:(a||"").trim(),name:(b||a||"").trim()};});
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveDay(i){
+  const f=getFormFields();const day=tripData.days[i];day.number=f.number;day.title=f.title;day.subtitle=f.subtitle;
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveNewItem(dayIndex){
+  const f=getFormFields();
+  const item={};if(f.time)item.time=f.time;item.title=f.title||"新活动";if(f.desc)item.desc=f.desc;if(f.maps)item.maps=f.maps;if(f.note)item.note=f.note;if(f.pending)item.pending=f.pending;
+  item.photo=f.photo===true;
+  tripData.days[dayIndex].items.push(item);
+  sortDayItems(tripData.days[dayIndex]);
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveChecklist(i){
+  const f=getFormFields();tripData.checklist[i].title=f.title;tripData.checklist[i].items=f.items.split("\n").filter(Boolean).map(l=>({l:l.trim()}));
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveNewChecklist(){
+  const f=getFormFields();tripData.checklist.push({title:f.title||"新分类",items:f.items.split("\n").filter(Boolean).map(l=>({l:l.trim()}))});
+  await saveTrip();renderTrip();closeModal();
+}
+async function saveNewDay(){
+  const f=getFormFields();const n=tripData.days.length+1;
+  tripData.days.push({id:"day"+n,number:f.number||String(n).padStart(2,"0"),title:f.title||"新一天",subtitle:f.subtitle||"",items:[]});
+  await saveTrip();renderTrip();closeModal();
+}
+
+async function confirmDelete(section,key,label){
+  if(!confirm(`确定删除 "${label}" 吗？`))return;
+  if(section==="day"){tripData.days.splice(key,1);tripData.days.forEach((d,i)=>{d.id="day"+(i+1);d.number=String(i+1).padStart(2,"0");});}
+  else if(section==="checklist"){tripData.checklist.splice(key,1);}
+  await saveTrip();renderTrip();
+}
+
+/* ---- EDIT MODE ---- */
+const isReadonly=new URLSearchParams(window.location.search).get("readonly")==="true";
+if(isReadonly){document.body.classList.add("readonly");document.getElementById("editFab").style.display="none";}
+else{document.getElementById("editFab").addEventListener("click",()=>{
+  editMode=!editMode;document.body.classList.toggle("editing",editMode);
+  document.getElementById("editFab").textContent=editMode?"✕":"✏️";
+});}
+
+/* ---- INIT ---- */
+(async()=>{
+  const loaded=await loadTrip();
+  if(!loaded)tripData=JSON.parse(JSON.stringify(DEFAULT_TRIP));
+  renderTrip();
+})();
+</script>
+</body>
+</html>
